@@ -1,0 +1,82 @@
+Pseudocodigo
+#1
+Inicio
+Definir precio_producto
+
+Definir el descuento
+
+Definir precio_final
+
+Pedir precio_producto
+  
+Si(precio_producto<100)entonces
+
+a.descuento= precio_producto*0.02
+
+sino 
+
+descuento= (precio_producto*0.10)
+finsi
+
+precio_final=precio_producto-descuento
+
+Mostrar "El precio final es de"
+
+mostar el precio_final
+
+Fin
+
+
+#2
+Inicio
+
+Definir tiempo_segundos
+
+definir resultado_final
+
+Pedir tiempo_segundos
+
+Si (tiempo_segundos>600)entonces
+muestre "Mayor"
+
+sino si (tiempo_segundos<600)entonces 
+   resultado_final=(600-tiempo_segundos)
+Mostrar resultado final
+
+sino 
+
+muestre "igual"
+
+finsi
+
+#3
+
+
+Inicio
+
+Definir numero
+Definir suma
+Definir contador
+
+Pedir numero
+
+suma = 0
+contador = 1
+
+Mientras (contador <= numero)entonces
+    suma = suma + contador
+    contador = contador + 1
+FinMientras
+
+Mostrar "La suma total es:"
+Mostrar suma
+
+Fin
+
+
+
+
+
+
+
+Fin
