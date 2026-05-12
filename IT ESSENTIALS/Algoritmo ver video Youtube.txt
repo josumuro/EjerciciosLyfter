@@ -1,0 +1,75 @@
+Algoritmo para ver video de YouTube
+Inicio
+1.Tomar el celular
+2. Si el celular esta apagado entonces
+2.1 Encender el celular
+FinSi
+3.Desbloquear el celular
+repetir
+3.1 Introducir la contraseÃ±a,faceid,patron
+3.2 Si la contraseÃ±a es incorrecta
+3.2 Volver a ingresarla,hasta que sea la correcta 
+4.Buscar la app de YouTube en el celular, si la app no esta
+4.1 Ingresar al app store 
+4.2 Buscar la aplicaciÃ³n de YouTube
+4.3 Descargar la aplicaciÃ³n de YouTube
+finsi
+5.Abrir el app de YouTube
+5.1 Si tiene cuenta de Yotube
+5.2 Ingresar la cuenta 
+sino
+5.3 Saltar ese paso
+finsi
+6.Tocar el signo de la lupa para escribir lo que estemos buscando
+7.Seleccionar buscar
+8.escoger entre todas las bÃºsquedas
+9.Tocar el video para que se reproduzca
+10.Tocar la opciÃ³n que permite pantalla grande en la esquina inferior de la caja del video
+11. Ver el video
+fin	
+
+
+Rutina Diaria
+
+Inicio
+
+1.Me despierto
+2.Pregunto a Alexa por la hora
+3.Verifico la hora
+3.1Si la hora es antes de las 7:00, duermo hasta las 7:30
+sino 
+3.2 Me levanto de la cama de forma inmediata.
+finsi
+4. Me dirijo a baÃ±arme
+5.Me quito la ropa
+6.Me meto a la ducha
+7.Abro la ducha
+8.Mientras el agua salga frÃ­a:
+8.1.abra poco a poco mas la llave hasta que caliente
+fin
+
+9.Salgo de la ducha
+10.Me lavo los dientes
+11.Llego al cuarto a mudarme
+11.1 Si la ropa esta aplanchada, me la pongo asi
+sino
+Aplancho la ropa
+finsi
+12. Me subo al auto 
+13.Me dirijo al trabajo
+14.Trabajo
+15.Termino la jornada
+16.Me dirijo a mi casa
+17.Me dirijo al baÃ±o a ducharme
+18. Repetir paso 7 al 10
+19.Me dirijo al cuarto
+20.Me coloco pijama
+21.Me acuesta en la cama
+21.1 Si la cama esta tendida, y me acuesto de una vez
+sino
+primero tiendo la cama y despuÃ©s me acuesto
+22. Enciendo el tele
+23.Busco HBO 
+24.Selecciono alguna serie
+25.La veo
+26.Me quedo dormido

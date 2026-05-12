@@ -1,0 +1,70 @@
+ejercicios extras pseudo
+Inicio
+Defina num_1
+Defina num_2
+Defina x
+Digite num_1
+Digite num_2
+Si (num_1>num2) entonces
+x= num_1
+num_1= num_2
+num_2= x
+
+Finsi
+Mostrar"Ordenados de menos a mayor"
+Mostrar num_1
+Mostrar num_2
+
+Fin
+
+#2
+Definir velocidad_km
+
+Definir velocidad_ms
+
+Digite la velocidad
+
+     velocidad_ms(velocidad_km*1000)/3600
+
+Mostrar "La velocidad en m/s es de:"
+
+Mostrar m/s
+FIN
+
+
+#3
+Definir sexo
+Definir contador
+Definir mujeres
+Definir hombres
+Definir porcentaje_mujeres
+Definir porcentaje_hombres
+
+contador = 1
+mujeres = 0
+hombres = 0
+
+Mientras (contador <= 6) hacer
+
+    Pedir sexo
+
+    Si (sexo == 1) entonces
+        mujeres = mujeres + 1
+    Sino
+        hombres = hombres + 1
+    FinSi
+
+    contador = contador + 1
+
+FinMientras
+
+porcentaje_mujeres = (mujeres / 6) * 100
+porcentaje_hombres = (hombres / 6) * 100
+
+Mostrar "Porcentaje mujeres:"
+Mostrar porcentaje_mujeres
+
+Mostrar "Porcentaje hombres:"
+Mostrar porcentaje_hombres
+
+Fin
