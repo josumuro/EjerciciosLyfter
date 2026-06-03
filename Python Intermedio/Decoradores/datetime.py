@@ -1,4 +1,6 @@
+
 from datetime import date
+
 
 class User:
     def __init__(self, date_of_birth: date):
@@ -8,6 +10,8 @@ class User:
     def age(self) -> int:
         today = date.today()
         years = today.year - self.date_of_birth.year
+        if (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day):
+            years -= 1 
         return years
 
     def __repr__(self):
@@ -30,6 +34,13 @@ def require_adult(func):
 def register(user: User):
     print(f"Registered: {user}")
 
+
 adult = User(date(1995, 3, 20))
 minor = User(date(2012, 8, 10))
 
+register(adult)
+
+try:
+    register(minor)
+except ValueError as e:
+    print(e)
