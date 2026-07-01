@@ -1,13 +1,12 @@
-def insertion_sort(arr):
-    n = len(arr)                          # O(1) 
-    for i in range(1, n):                 # O(n) 
-        clave = arr[i]                    # O(n)
-        j = i - 1                         # O(n)
-        while j >= 0 and arr[j] > clave:  # O(n²)
-            arr[j + 1] = arr[j]           # O(n²)
-            j -= 1                        # O(n²)
-        arr[j + 1] = clave                #  O(n)
-    return arr                            # O(1) 
+def bubble_sort(arr):
+    n = len(arr)                          # O(1)
+    for i in range(n):                    # O(n)
+        for j in range(0, n - i - 1):     # O(n²)
+            if arr[j] > arr[j + 1]:       # O(n²)
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]  # O(n²)
+    return arr                            # O(1)
+
+            
 
 ################################################################
 
@@ -28,10 +27,13 @@ def check_if_lists_have_an_equal(list_a, list_b):
 
 ###################################################################
 def print_10_or_less_elements(list_to_print):
-	list_len = len(list_to_print)  #0(1)
-	for index in range(min(list_len, 10)): #0(1)
-		print(list_to_print[index])        #0(1)
-		
+    list_len = len(list_to_print)           # O(1) — len() es acceso directo, no recorre la lista
+    for index in range(min(list_len, 10)):  # O(1) — el loop corre MÁXIMO 10 veces sin importar
+                                            #        el tamaño de list_to_print.
+                                            #        pone un techo fijo, no crece con el input, por eso seun el análisis de complejidad es O(1)
+        print(list_to_print[index])         # O(1) — hereda el O(1) del loop que la contiene
+
+
 
 ################################################################### 
 
