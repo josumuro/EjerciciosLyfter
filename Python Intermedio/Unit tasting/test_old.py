@@ -1,0 +1,28 @@
+
+import unittest
+from old import mylist
+
+class TestMyList(unittest.TestCase):
+
+    def test_list_length(self):
+        # Arrange
+        expected_length = 5
+        # Act
+        result_length = len(mylist)
+        # Assert
+        self.assertEqual(result_length, expected_length)
+
+    def test_list_sorted(self):
+        # Arrange
+        expected_sorted = [1, 1, 3, 4, 5]
+        # Act —
+        result_sorted = mylist
+        # Assert
+        self.assertEqual(result_sorted, expected_sorted)
+
+    def test_list_is_not_empty(self):
+        self.assertGreater(len(mylist), 0)
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
