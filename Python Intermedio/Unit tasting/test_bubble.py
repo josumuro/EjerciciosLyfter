@@ -26,14 +26,13 @@ class TestBubbleSort(unittest.TestCase):
         
     def test_100_elements(self):
         #Arrange
-        numbers=list(range(100, 0, -1))
-        expected=list(range(1, 101))
+        numbers=list(range(105, 0, -1))
+        expected=list(range(1, 106))
         #Act
         result = bubble_sort(numbers)
         #Assert
         self.assertEqual(result, expected)
-
-
+       
 
     def test_empty_list(self):
         #Arrange
@@ -42,7 +41,7 @@ class TestBubbleSort(unittest.TestCase):
         result = bubble_sort([])
         #Assert
         self.assertEqual(result, [])
-        
+
 
     def test_is_not_list(self):
         #Arrange
