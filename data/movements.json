@@ -1,0 +1,16 @@
+[
+  {
+    "type": "Income",
+    "title": "apple",
+    "amount": 500.0,
+    "category": "Compras",
+    "date": "2026-07-24 08:55"
+  },
+  {
+    "type": "Expense",
+    "title": "Carro",
+    "amount": 50.0,
+    "category": "Compras",
+    "date": "2026-07-24 08:55"
+  }
+]

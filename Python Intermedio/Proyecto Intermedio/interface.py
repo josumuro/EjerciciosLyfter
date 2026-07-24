@@ -92,7 +92,7 @@ class FinanceInterface:
                     sg.popup_error(str(error), title="Error")
         window.close()
 
-    # ---------- Main window update ----------
+    
 
     def _update_table(self) -> None:
         self.window["-TABLE-"].update(values=self.manager.movements_for_table())
@@ -102,7 +102,7 @@ class FinanceInterface:
             f"{balance:.2f}   (Income: {income_total:.2f}  /  Expenses: {expense_total:.2f})"
         )
 
-    # ---------- Main event loop ----------
+    
 
     def run(self) -> None:
         self._update_table()

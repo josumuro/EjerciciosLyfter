@@ -1,4 +1,4 @@
-import json    # python--json
+import json    
 import os      
 from models import Category, Movement
 

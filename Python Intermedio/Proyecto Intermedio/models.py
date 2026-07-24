@@ -66,8 +66,7 @@ class Movement:
         category_name = data["category"]
         category_obj = categories.get(category_name)
         if category_obj is None:
-            # Orphaned data (category deleted externally): recreate it
-            # so we don't lose the movement, even if it's not in self.categories
+            
             category_obj = Category(category_name)
 
         subclass = Income if data["type"] == "Income" else Expense
