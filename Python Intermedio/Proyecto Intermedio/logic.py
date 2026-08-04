@@ -56,18 +56,18 @@ class FinanceManager:
 
     # -- Movements
 
-    def add_income(self, title: str, amount: float, category_name: str) -> Income:
+    def add_income(self, title: str, amount: float, category_name: str, date: str = None) -> Income:
         self._validate_categories_exist()
         category = self._get_category(category_name)
-        income = Income(title, amount, category)
+        income = Income(title, amount, category, date=date)
         self.movements.append(income)
         self.save_all()
         return income
 
-    def add_expense(self, title: str, amount: float, category_name: str) -> Expense:
+    def add_expense(self, title: str, amount: float, category_name: str, date: str = None) -> Expense:
         self._validate_categories_exist()
         category = self._get_category(category_name)
-        expense = Expense(title, amount, category)
+        expense = Expense(title, amount, category, date=date)
         self.movements.append(expense)
         self.save_all()
         return expense

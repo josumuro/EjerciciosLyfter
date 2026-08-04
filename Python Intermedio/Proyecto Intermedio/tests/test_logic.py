@@ -6,8 +6,8 @@ import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from logic import FinanceManager, NoCategoriesError, CategoryAlreadyExistsError  # noqa: E402
-from persistence import Persistence  # noqa: E402
+from logic import FinanceManager, NoCategoriesError, CategoryAlreadyExistsError
+from persistence import Persistence  
 
 
 class TestFinanceManager(unittest.TestCase):
@@ -87,6 +87,41 @@ class TestFinanceManager(unittest.TestCase):
         self.assertEqual(income_total, 100000)
         self.assertEqual(expense_total, 30000)
 
-  
+    # ---- Movements ----
+
+    def test_movement_without_date_defaults_to_today(self):
+        from datetime import datetime
+        self.manager.add_category("Food")
+        expense = self.manager.add_expense("Dinner", 1000, "Food")
+        self.assertEqual(expense.date, datetime.now().strftime("%Y-%m-%d"))
+
+    def test_movement_with_valid_past_date(self):
+        self.manager.add_category("Food")
+        expense = self.manager.add_expense("Dinner", 1000, "Food", "2026-01-15")
+        self.assertEqual(expense.date, "2026-01-15")
+
+    def test_movement_with_todays_date_is_allowed(self):
+        from datetime import datetime
+        today_str = datetime.now().strftime("%Y-%m-%d")
+        self.manager.add_category("Food")
+        expense = self.manager.add_expense("Dinner", 1000, "Food", today_str)
+        self.assertEqual(expense.date, today_str)
+
+    def test_future_date_raises_error(self):
+        self.manager.add_category("Food")
+        with self.assertRaises(ValueError):
+            self.manager.add_expense("Dinner", 1000, "Food", "2099-01-01")
+
+    def test_malformed_date_raises_error(self):
+        self.manager.add_category("Food")
+        with self.assertRaises(ValueError):
+            self.manager.add_expense("Dinner", 1000, "Food", "15/01/2026")
+
+    def test_empty_date_raises_error(self):
+        self.manager.add_category("Food")
+        with self.assertRaises(ValueError):
+            self.manager.add_expense("Dinner", 1000, "Food", "   ")
+
+
 if __name__ == "__main__":
     unittest.main()

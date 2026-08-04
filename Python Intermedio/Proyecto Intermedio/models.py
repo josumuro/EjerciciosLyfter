@@ -28,13 +28,18 @@ class Category:
 class Movement:
 
     TYPE = "Movement"
+    DATE_FORMAT = "%Y-%m-%d"  
 
     def __init__(self, title: str, amount: float, category: Category, date: str = None):
         self._validate(title, amount, category)
         self.title = title.strip()
         self.amount = float(amount)
         self.category = category
-        self.date = date or datetime.now().strftime("%Y-%m-%d %H:%M")
+        self.date = (
+            datetime.now().strftime(self.DATE_FORMAT)
+            if date is None
+            else self._validate_date(date)
+        )
 
     @staticmethod
     def _validate(title, amount, category):
@@ -48,6 +53,18 @@ class Movement:
             raise ValueError("The amount must be greater than 0")
         if not isinstance(category, Category):
             raise ValueError("Must indicate a valid category")
+
+    @classmethod
+    def _validate_date(cls, date_str: str) -> str:
+        if not date_str or not str(date_str).strip():
+            raise ValueError("Date cannot be empty")
+        try:
+            parsed = datetime.strptime(str(date_str).strip(), cls.DATE_FORMAT)
+        except ValueError:
+            raise ValueError(f"Date must be in {cls.DATE_FORMAT} format (e.g. 2026-01-15)")
+        if parsed.date() > datetime.now().date():
+            raise ValueError("Date cannot be in the future")
+        return parsed.strftime(cls.DATE_FORMAT)
 
     def sign(self) -> int:
         raise NotImplementedError("This method should be implemented in subclasses")
@@ -66,7 +83,6 @@ class Movement:
         category_name = data["category"]
         category_obj = categories.get(category_name)
         if category_obj is None:
-            
             category_obj = Category(category_name)
 
         subclass = Income if data["type"] == "Income" else Expense

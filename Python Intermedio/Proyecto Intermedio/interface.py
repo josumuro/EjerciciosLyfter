@@ -1,3 +1,4 @@
+from datetime import datetime
 
 import FreeSimpleGUI as sg
 
@@ -33,6 +34,10 @@ class FinanceInterface:
                 sg.Button("Add Category", key="-CAT-"),
                 sg.Button("Add Income", key="-INC-"),
                 sg.Button("Add Expense", key="-EXP-"),
+                sg.Button("View Categories", key="-VIEW-CAT-"),
+                sg.Button("Edit Movement", key="-EDIT-"),
+                sg.Button("Delete Movement", key="-DEL-"),
+                sg.Button("Refresh", key="-REFRESH-"),
                 sg.Button("Exit", key="-EXIT-"),
             ],
         ]
@@ -51,7 +56,7 @@ class FinanceInterface:
             if event == "Save":
                 try:
                     self.manager.add_category(values["-NAME-"])
-                    break 
+                    break
                 except (ValueError, CategoryAlreadyExistsError) as error:
                     sg.popup_error(str(error), title="Error")
         window.close()
@@ -66,10 +71,12 @@ class FinanceInterface:
             return
 
         category_options = self.manager.category_names()
+        today_str = datetime.now().strftime("%Y-%m-%d")
         layout = [
             [sg.Text("Title:"), sg.Input(key="-TITLE-", focus=True)],
             [sg.Text("Amount:"), sg.Input(key="-AMOUNT-")],
             [sg.Text("Category:"), sg.Combo(category_options, key="-CATEGORY-", readonly=True)],
+            [sg.Text("Date (YYYY-MM-DD):"), sg.Input(default_text=today_str, key="-DATE-")],
             [sg.Button("Save"), sg.Button("Cancel")],
         ]
         window = sg.Window(f"New {kind}", layout, modal=True)
@@ -81,18 +88,18 @@ class FinanceInterface:
                 try:
                     if kind == "Income":
                         self.manager.add_income(
-                            values["-TITLE-"], values["-AMOUNT-"], values["-CATEGORY-"]
+                            values["-TITLE-"], values["-AMOUNT-"], values["-CATEGORY-"], values["-DATE-"]
                         )
                     else:
                         self.manager.add_expense(
-                            values["-TITLE-"], values["-AMOUNT-"], values["-CATEGORY-"]
+                            values["-TITLE-"], values["-AMOUNT-"], values["-CATEGORY-"], values["-DATE-"]
                         )
                     break
                 except (ValueError, NoCategoriesError) as error:
                     sg.popup_error(str(error), title="Error")
         window.close()
 
-    
+    # ---------- Main window update ----------
 
     def _update_table(self) -> None:
         self.window["-TABLE-"].update(values=self.manager.movements_for_table())
@@ -102,7 +109,7 @@ class FinanceInterface:
             f"{balance:.2f}   (Income: {income_total:.2f}  /  Expenses: {expense_total:.2f})"
         )
 
-    
+    # ---------- Main event loop ----------
 
     def run(self) -> None:
         self._update_table()
