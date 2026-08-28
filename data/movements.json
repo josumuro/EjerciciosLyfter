@@ -12,5 +12,19 @@
     "amount": 50.0,
     "category": "Compras",
     "date": "2026-07-24 08:55"
+  },
+  {
+    "type": "Income",
+    "title": "Pear",
+    "amount": 500.0,
+    "category": "Frio",
+    "date": "2026-08-03"
+  },
+  {
+    "type": "Income",
+    "title": "Civic",
+    "amount": 50000.0,
+    "category": "Carros",
+    "date": "2026-08-03"
   }
 ]
