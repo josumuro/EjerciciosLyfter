@@ -15,7 +15,7 @@ CREATE TABLE `Invoices`(
 );
 CREATE TABLE `Products Per Invoice`(
     `quantity` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `total amount` BIGINT NOT NULL,
+    `total amountbigint` DECIMAL(10, 2) NOT NULL,
     `invoice_number` BIGINT NOT NULL,
     `product_code` VARCHAR(50) NOT NULL,
     PRIMARY KEY(`invoice_number`)
@@ -23,14 +23,20 @@ CREATE TABLE `Products Per Invoice`(
 ALTER TABLE
     `Products Per Invoice` ADD PRIMARY KEY(`product_code`);
 CREATE TABLE `Shopping Cart`(
-    `buyer email` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
+    `shopping cart id` BIGINT NOT NULL,
+    `buyer email` VARCHAR(255) NOT NULL,
+    PRIMARY KEY(`shopping cart id`)
 );
+ALTER TABLE
+    `Shopping Cart` ADD INDEX `shopping cart_buyer email_index`(`buyer email`);
 CREATE TABLE `Cart Items`(
-    `buyer_email` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `buyer_email` VARCHAR(255) NOT NULL,
     `product_code` VARCHAR(50) NOT NULL,
     `quantity` INT NOT NULL,
-    PRIMARY KEY(`product_code`)
+    PRIMARY KEY(`buyer_email`)
 );
+ALTER TABLE
+    `Cart Items` ADD PRIMARY KEY(`product_code`);
 ALTER TABLE
     `Cart Items` ADD CONSTRAINT `cart items_product_code_foreign` FOREIGN KEY(`product_code`) REFERENCES `Products`(`code`);
 ALTER TABLE
