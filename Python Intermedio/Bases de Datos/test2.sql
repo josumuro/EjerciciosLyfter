@@ -1,4 +1,4 @@
-PRAGMA foreign_keys = ON;
+
 
 DROP TABLE IF EXISTS books;
 DROP TABLE IF EXISTS authors;
@@ -34,7 +34,7 @@ CREATE TABLE RENTS(
 -- =====================================================
 -- DATOS 
 -- =====================================================
-PRAGMA foreign_keys = ON;
+
 
 INSERT INTO BOOKS(ID,TITLE,AUTHOR_ID)VALUES
 (1,'Don Quijote',1),
