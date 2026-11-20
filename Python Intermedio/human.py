@@ -84,4 +84,3 @@ class Human:
         return f"Human({self.name}, {self.age}, Head={self.head}, Torso={self.torso})"
 human1=Human("Josue", 25)
 print(human1)
-

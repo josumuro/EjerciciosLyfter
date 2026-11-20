@@ -1,0 +1,173 @@
+# Fundamentos de Internet 
+
+## 1. Del Cliente al Servidor
+Click en el url : protocolo (https), dominio (www.youtube.com), ruta (/)
+Revisa su caché local de DNS 
+Revisa el caché del sistema operativo
+Si no encuentra nada, dispara una consulta DNS
+
+DNS
+El DNS traduce nombres humanos (www.youtube.com) a direcciones IP, Para que pueda ser entendible para las computadoras.
+
+IP
+cliente y servidor negocian cifrado, intercambian certificados, generan claves de sesión → esto es lo que garantiza que nadie en el medio pueda leer o alterar los datos
+
+Servidor 
+Un load balancer distribuye la petición entre miles de servidores
+El servidor de aplicación procesa la lógica 
+Consulta bases de datos, servicios internos 
+Arma la respuesta que te dara
+
+HTTP
+
+HTTP/2 200 OK
+Content-Type: text/html
+Content-Length: 45320
+
+<!DOCTYPE html>...
+
+El navegador parsea el HTML, descarga CSS/JS adicionales 
+JavaScript ejecuta, hace llamadas a APIs internas de YouTube para pedir el video específico
+El video no llega todo de una vez: se usa streaming adaptativo (DASH/HLS) — el navegador pide fragmentos pequeños del video, ajustando la calidad según tu ancho de banda 
+Despues reproduce el video
+## 2. Frontend y Backend en acción
+Frontend — "lo que el usuario ve y usa"
+
+Es la interfaz visual con la que el paciente/médico interactúa. Vive en el navegador o en el celular.
+
+Responsabilidades:
+
+Formulario para elegir especialidad, médico, fecha y hora
+Calendario visual mostrando horarios disponibles
+Validaciones básicas antes de enviar
+Mostrar confirmación, errores, estados de carga 
+Notificaciones visuales
+
+3 tecnologias (react,angular,css)
+
+Backend
+Recibe la petición del frontend, la valida en serio, consulta la base de datos, aplica reglas de negocio, y responde.
+
+Responsabilidades:
+
+Verificar que el horario realmente esté disponible (el frontend no puede confiar en sí mismo para esto — alguien podría manipular la petición)
+Evitar doble-reserva del mismo slot (condición de carrera — dos pacientes reservando la misma hora al mismo tiempo)
+Autenticación del paciente
+Guardar la cita en la base de datos
+Enviar notificación 
+Lógica de negocio: cancelaciones, reprogramaciones, límite de citas por día por médico
+3 tecnologias 
+flask,redis,postgreSQL
+## 3. REST vs SOAP vs GraphQL
+
+| Tipo de API | Formato de datos usado | Nivel de flexibilidad                                 Dificultad de implementación                 |  Uso actual (Alta / Media / Baja) |
+|-------------|------------------------|-------------------------------------------------------|--------------------------------------------------------------------------------|
+| REST        |  Json,XML              |Media(server define cada endpoint)                      |  Baja cualquier framework lo soporta      |   alta                         
+| SOAP        |   XML                   Baja (estructura rigida por contrato)                   |  Alta requiere el manejo de WSDL          |   baja                      
+| GraphQL     |   JSON                 |Alta(el cliente decide exactamente que campos necesita) |  Media requiere definir schema, resolvers |   media                                  
+
+**¿Cuál es más apropiada para una startup moderna? ¿Por qué?**
+La que mejor conviene es el REST, ya que que tiene velocidad de desarrollo, tiene el dominio complejo en anidamiento, para ecosistemas y hasta a nivdel de contratacion ya que la amyoria de personas saben RESt y por el caching gratis
+
+## 4. Explorando APIs con Postman
+
+
+### 4.1 Selección de la API
+- [**Nombre de la API:**] Api.Dog
+- **API pública, gratuita y sin autenticación que expone más de 20,000 imágenes de perros organizadas en más de 120 razas y sub-razas (ej. hound/afghan). Las imágenes provienen del Stanford Dogs Dataset. Es de solo lectura (GET) por diseño: no expone endpoints de escritura porque es un catálogo de contenido estático, no un recurso administrable por terceros.
+
+### 4.2 Configuración en Postman
+- **Nombre de la colección:**Dog.API
+- **Solicitudes agregadas:**
+Configuración en Postman con Dog API
+Colección: Dog API - Collection Environment: Dog API - Environment
+
+Variables de Environment
+Variable	Valor
+base_url	https://dog.ceo/api
+breed	hound
+sub_breed	afghan
+jph_base_url	https://jsonplaceholder.typicode.com
+
+3. Requests GET
+
+Request	Método	URL	Qué demuestra
+Listar todas las razas	GET	{{base_url}}/breeds/list/all	Estructura de datos anidada (razas con sub-razas)
+Imagen aleatoria por raza	GET	{{base_url}}/breed/{{breed}}/images/random	Path param dinámico
+Múltiples imágenes aleatorias	GET	{{base_url}}/breeds/image/random/3	Path param numérico que altera cantidad de resultados
+
+### 4.3 Ejecución y análisis
+
+#	Solicitud	Código de estado	Content-Type	Observación
+1	GET - Listar todas las razas	200 OK	application/json	Body: objeto message con razas como keys, cada una con array de sub-razas
+2	GET - Imagen aleatoria por raza	200 OK	application/json	Body: message es un string (URL de imagen)
+3	GET - Imagen aleatoria por sub-raza	200 OK	application/json	Confirma recurso anidado en 2 niveles (raza + sub-raza)
+4	GET - Múltiples imágenes aleatorias	200 OK	application/json	Body: message es un array de 3 URLs, no un string
+5	POST - Crear recurso	201 Created	application/json; charset=utf-8	El servidor agrega un campo id que no estaba en el request enviado
+6	PUT - Actualizar recurso	200 OK	application/json; charset=utf-8	El body de respuesta es un eco del objeto enviado
+
+### 4.4 Explicación técnica
+
+Dog API es un servicio REST de solo lectura que organiza su contenido en una jerarquía de dos niveles: raza y, opcionalmente, sub-raza. No requiere autenticación ni API key. JSONPlaceholder se usó como API complementaria únicamente para cubrir los métodos de escritura (POST, PUT, DELETE) que Dog API no ofrece.
+
+1. GET - Listar todas las razas
+
+Método: GET
+Endpoint: /breeds/list/all
+Parámetros: ninguno
+Respuesta: objeto message donde cada key es una raza y su valor es un array de sub-razas (vacío si no tiene).
+{
+  "message": {
+    "hound": ["afghan", "basset", "blood"],
+    "husky": [],
+    "retriever": ["golden", "curly"]
+  },
+  "status": "success"
+}
+
+2. GET - Imagen aleatoria por raza
+
+Método: GET
+Endpoint: /breed/{{breed}}/images/random
+Parámetros: breed (path param, vía variable de Environment)
+Respuesta: URL directa a una imagen JPEG.
+
+{
+  "message": "https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg",
+  "status": "success"
+}
+3. POST - Crear recurso
+
+Método: POST
+Endpoint: /posts
+Body (JSON):
+
+{
+  "title": "nueva raza reportada",
+  "body": "labrador mix avistado en el parque",
+  "userId": 1
+}
+4. PUT - Actualizar recurso
+
+Método: PUT
+Endpoint: /posts/1
+Body (JSON): objeto completo con id, title, body, userId
+Respuesta: 200 OK, eco del objeto enviado — simula reemplazo total del recurso.
+
+5. DELETE - Eliminar recurso
+
+Método: DELETE
+Endpoint: /posts/1
+Parámetros/body: ninguno
+Respuesta: 200 OK con body vacío {}.
+
+
+
+**¿Qué aprendiste del proceso?**
+No todas las APIs públicas soportan el ciclo CRUD completo — muchas (Dog API, PokeAPI, API.Bible) son de solo lectura por diseño, y hay que identificar eso antes de intentar forzar un POST que no existe, por intente utilizar varias apis, las cuales fueron sin mentir las primeras que pude observar hasta que encontre esta de dog api, la cual se le podia implementar de otras maneras
+
+### 4.5 Reflexión final
+
+Trabajar con estas APIs dejó claro que "API pública" no significa "API que hace de todo": la mayoría de los catálogos de datos abiertos (razas de perros, Pokémon, versículos bíblicos) existen para servir información, no para que cualquiera la modifique — el CRUD completo solo tiene sentido en sistemas donde el usuario es dueño legítimo del dato que está creando o alterando, como en una app propia con base de datos propia. Entender esa distinción evita perder tiempo buscando un endpoint POST que nunca va a existir por diseño, y obliga a pensar primero en el modelo de datos del sistema antes que en la tecnología.
+
+Postman ayudó a hacer tangible algo que normalmente pasa invisible cuando uno usa una app terminada: cada clic en una interfaz gráfica es, por debajo, una petición HTTP con método, URL, headers y (a veces) un body — y del otro lado hay un servidor que responde con un código de estado que dice exactamente qué pasó. Ver la respuesta cruda en JSON, sin el filtro de una UI bonita, hace mucho más fácil entender por qué se dice que frontend y backend están "desacoplados": el backend no sabe ni le importa si quien le habla es un navegador, una app móvil o Postman — solo entiende peticiones HTTP y responde con datos.
